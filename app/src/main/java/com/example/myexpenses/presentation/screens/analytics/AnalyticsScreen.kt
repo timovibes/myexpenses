@@ -30,6 +30,17 @@ fun AnalyticsScreen(
     onNavigateBack: () -> Unit
 ) {
     val currencyFormat = remember { NumberFormat.getCurrencyInstance(Locale.US) }
+    val snackbarHostState = remember { SnackbarHostState() } // ADDED
+
+    // ADDED - Show error message when it changes
+    LaunchedEffect(state.error) {
+        state.error?.let { error ->
+            snackbarHostState.showSnackbar(
+                message = error,
+                duration = SnackbarDuration.Long
+            )
+        }
+    }
 
     LaunchedEffect(Unit) {
         onEvent(AnalyticsEvent.RefreshData)
@@ -87,6 +98,14 @@ fun AnalyticsScreen(
                 )
             }
         }
+
+        // ADDED - Snackbar to show errors at the bottom
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(16.dp)
+        )
 
         if (state.isLoading) {
             CircularProgressIndicator(
@@ -255,7 +274,6 @@ fun MonthlyBar(
                         .background(SuccessGreen, RoundedCornerShape(4.dp))
                 )
             } else {
-                // Optional: Placeholder for zero state to maintain UI alignment
                 Spacer(modifier = Modifier.width(0.dp))
             }
 

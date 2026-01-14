@@ -82,7 +82,17 @@ class AnalyticsViewModel @Inject constructor(
             _state.update { it.copy(isLoadingInsights = true, error = null) }
 
             try {
-                val userId = authRepository.getCurrentUserId() ?: return@launch
+                val userId = authRepository.getCurrentUserId()
+                if (userId == null) {
+                    _state.update {
+                        it.copy(
+                            isLoadingInsights = false,
+                            error = "User not authenticated"
+                        )
+                    }
+                    return@launch
+                }
+
 
                 // FIX: Use .first() instead of .collectLatest to get a snapshot and close the stream
                 // Otherwise, this block stays open forever, causing the loading hang.

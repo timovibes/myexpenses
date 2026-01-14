@@ -19,21 +19,26 @@ class AIRepositoryImpl @Inject constructor(
         return try {
             val response = generativeModel.generateContent(
                 content {
+                    // Use a supported model
                     text("""
-                        You are a personal finance advisor. Analyze the following financial data and provide 
-                        actionable insights, spending patterns, and recommendations.
-                        
-                        $prompt
-                        
-                        Provide a clear, concise analysis with specific recommendations.
-                    """.trimIndent())
+                    You are a personal finance advisor. Analyze the following financial data and provide 
+                    actionable insights, spending patterns, and recommendations.
+                    
+                    $prompt
+                    
+                    Provide a clear, concise analysis with specific recommendations.
+                """.trimIndent())
                 }
             )
-            NetworkResult.Success(response.text ?: "No insights generated")
+            val insights = response.text?.takeIf { it.isNotBlank() } ?: "No insights generated"
+            NetworkResult.Success(insights)
         } catch (e: Exception) {
+            // Catch ServerException separately for better debugging
             NetworkResult.Error(e.message ?: "Failed to generate insights")
         }
     }
+
+
 
     override suspend fun analyzeReceipt(bitmap: Bitmap): NetworkResult<String> {
         return try {
