@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.myexpenses.domain.model.Category
 import com.example.myexpenses.presentation.theme.*
+import dev.jeziellago.compose.markdowntext.MarkdownText
 import java.text.NumberFormat
 import java.util.*
 
@@ -486,11 +487,10 @@ fun AIInsightsCard(
                     }
                 }
                 else -> {
-                    Text(
-                        text = insights,
+                    MarkdownText(
+                        markdown = insights,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Color.White.copy(alpha = 0.9f),
-                        lineHeight = MaterialTheme.typography.bodyMedium.fontSize * 1.5
+                        linkColor = Color.White.copy(alpha = 0.9f),
                     )
                 }
             }
