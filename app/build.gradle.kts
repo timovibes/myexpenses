@@ -113,7 +113,8 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx")
 
     // Google AI (Gemini)
-    implementation("com.google.ai.client.generativeai:generativeai:0.1.2")
+//    implementation("com.google.ai.client.generativeai:generativeai:0.1.2")
+    implementation(libs.generativeai)
 
     // ML Kit
     implementation("com.google.mlkit:text-recognition:16.0.0")
