@@ -71,7 +71,7 @@ object AppModule {
     @Singleton
     fun provideGenerativeModel(): GenerativeModel {
         return GenerativeModel(
-            modelName = "gemini-3-pro-preview",
+            modelName = "gemini-3-flash-preview",
             apiKey = BuildConfig.MY_API_KEY //loads from BuildConfig
         )
     }
